@@ -426,20 +426,19 @@ export async function setupSupabase() {
   }
 }
 
-// Run setup if this file is executed directly
-if (require.main === module) {
-  setupSupabase()
-    .then(success => {
-      if (success) {
-        console.log('Setup completed successfully!');
-        process.exit(0);
-      } else {
-        console.error('Setup failed!');
-        process.exit(1);
-      }
-    })
-    .catch(error => {
-      console.error('Setup error:', error);
-      process.exit(1);
-    });
+// Export a function to run the setup directly
+export async function runSetup() {
+  try {
+    const success = await setupSupabase();
+    if (success) {
+      console.log('Setup completed successfully!');
+      return true;
+    } else {
+      console.error('Setup failed!');
+      return false;
+    }
+  } catch (error) {
+    console.error('Setup error:', error);
+    return false;
+  }
 }

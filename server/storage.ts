@@ -515,4 +515,14 @@ export class MemStorage implements IStorage {
   }
 }
 
-export const storage = new MemStorage();
+import { SupabaseStorage } from './storage-supabase';
+import { setupSupabase } from './setupSupabase';
+
+// Initialize Supabase tables and seed data if needed
+// This will run asynchronously but we don't need to await it here
+setupSupabase().catch(err => {
+  console.error("Failed to set up Supabase:", err);
+});
+
+// Export the Supabase storage implementation
+export const storage = new SupabaseStorage();
