@@ -9,6 +9,92 @@ import {
   Comment, InsertComment
 } from '@shared/schema';
 import { IStorage } from './storage';
+import { db } from './db';
+
+// Helper function to map snake_case db fields to camelCase model fields
+function mapUserFromDb(dbUser: any): User {
+  return {
+    id: dbUser.id,
+    username: dbUser.username,
+    password: dbUser.password,
+    fullName: dbUser.full_name,
+    email: dbUser.email,
+    avatarUrl: dbUser.avatar_url,
+    createdAt: dbUser.created_at
+  };
+}
+
+function mapWorkspaceFromDb(dbWorkspace: any): Workspace {
+  return {
+    id: dbWorkspace.id,
+    name: dbWorkspace.name,
+    color: dbWorkspace.color,
+    createdAt: dbWorkspace.created_at
+  };
+}
+
+function mapTaskFromDb(dbTask: any): Task {
+  return {
+    id: dbTask.id,
+    title: dbTask.title,
+    description: dbTask.description,
+    status: dbTask.status,
+    priority: dbTask.priority,
+    startDate: dbTask.start_date,
+    endDate: dbTask.end_date,
+    workspaceId: dbTask.workspace_id,
+    createdById: dbTask.created_by_id,
+    totalBudget: dbTask.total_budget,
+    paidAmount: dbTask.paid_amount,
+    createdAt: dbTask.created_at,
+    completedAt: dbTask.completed_at
+  };
+}
+
+function mapTaskAssigneeFromDb(dbAssignee: any): TaskAssignee {
+  return {
+    id: dbAssignee.id,
+    taskId: dbAssignee.task_id,
+    userId: dbAssignee.user_id
+  };
+}
+
+function mapTaskAttachmentFromDb(dbAttachment: any): TaskAttachment {
+  return {
+    id: dbAttachment.id,
+    taskId: dbAttachment.task_id,
+    fileName: dbAttachment.file_name,
+    fileType: dbAttachment.file_type,
+    fileSize: dbAttachment.file_size,
+    filePath: dbAttachment.file_path,
+    uploadedById: dbAttachment.uploaded_by_id,
+    uploadedAt: dbAttachment.uploaded_at
+  };
+}
+
+function mapVoiceNoteFromDb(dbVoiceNote: any): VoiceNote {
+  return {
+    id: dbVoiceNote.id,
+    taskId: dbVoiceNote.task_id,
+    fileName: dbVoiceNote.file_name,
+    fileSize: dbVoiceNote.file_size,
+    duration: dbVoiceNote.duration,
+    filePath: dbVoiceNote.file_path,
+    recordedById: dbVoiceNote.recorded_by_id,
+    recordedAt: dbVoiceNote.recorded_at
+  };
+}
+
+function mapCommentFromDb(dbComment: any): Comment {
+  return {
+    id: dbComment.id,
+    taskId: dbComment.task_id,
+    userId: dbComment.user_id,
+    content: dbComment.content,
+    createdAt: dbComment.created_at,
+    updatedAt: dbComment.updated_at
+  };
+}
 
 // Implementation of IStorage using Supabase
 export class SupabaseStorage implements IStorage {
