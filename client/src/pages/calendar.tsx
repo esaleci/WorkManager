@@ -24,12 +24,20 @@ export default function Calendar() {
     if (!tasks) return [];
     return tasks.filter((task: Task) => {
       if (!task.startDate) return false;
-      const taskDate = new Date(task.startDate);
-      return (
-        taskDate.getDate() === day.getDate() &&
-        taskDate.getMonth() === day.getMonth() &&
-        taskDate.getFullYear() === day.getFullYear()
-      );
+      // Safely create date object and handle potential issues
+      try {
+        const taskDate = new Date(task.startDate);
+        // Check if taskDate is a valid date before using getDate(), etc.
+        if (isNaN(taskDate.getTime())) return false;
+        return (
+          taskDate.getDate() === day.getDate() &&
+          taskDate.getMonth() === day.getMonth() &&
+          taskDate.getFullYear() === day.getFullYear()
+        );
+      } catch (error) {
+        console.error("Error parsing date:", error);
+        return false;
+      }
     });
   };
 

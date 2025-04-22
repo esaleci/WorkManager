@@ -45,6 +45,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
     res.json(workspace);
   });
 
+  // Get today's tasks
+  app.get('/api/tasks/today', async (req, res) => {
+    const tasks = await storage.getTodayTasks();
+    res.json(tasks);
+  });
+
+  // Get upcoming tasks
+  app.get('/api/tasks/upcoming', async (req, res) => {
+    const tasks = await storage.getUpcomingTasks();
+    res.json(tasks);
+  });
+
   // Get all tasks
   app.get('/api/tasks', async (req, res) => {
     const tasks = await storage.getTasks();
@@ -63,18 +75,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Get tasks by workspace
   app.get('/api/workspaces/:id/tasks', async (req, res) => {
     const tasks = await storage.getTasksByWorkspace(Number(req.params.id));
-    res.json(tasks);
-  });
-
-  // Get today's tasks
-  app.get('/api/tasks/today', async (req, res) => {
-    const tasks = await storage.getTodayTasks();
-    res.json(tasks);
-  });
-
-  // Get upcoming tasks
-  app.get('/api/tasks/upcoming', async (req, res) => {
-    const tasks = await storage.getUpcomingTasks();
     res.json(tasks);
   });
 
