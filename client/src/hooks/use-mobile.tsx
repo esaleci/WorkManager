@@ -18,5 +18,27 @@ export function useIsMobile() {
   return !!isMobile
 }
 
-// Export the function under both names for backward compatibility
-export const useMediaQuery = useIsMobile;
+// Custom hook to handle media query for flexible breakpoints
+export function useMediaQuery(query: string) {
+  const [matches, setMatches] = React.useState<boolean>(false)
+
+  React.useEffect(() => {
+    const media = window.matchMedia(query)
+    const updateMatch = () => {
+      setMatches(media.matches)
+    }
+    
+    // Initial check
+    updateMatch()
+    
+    // Listen for changes
+    media.addEventListener("change", updateMatch)
+    
+    // Cleanup
+    return () => {
+      media.removeEventListener("change", updateMatch)
+    }
+  }, [query])
+
+  return matches
+}

@@ -135,18 +135,19 @@ export default function Sidebar() {
               ) : (
                 workspaces?.map((workspace: any) => (
                   <li key={workspace.id}>
-                    <a
-                      href="#"
-                      className="flex items-center px-4 py-2 text-neutral-600 hover:bg-neutral-100 rounded-md mx-2"
-                    >
-                      <div 
-                        className="w-6 h-6 rounded-md flex items-center justify-center text-white text-xs font-bold"
-                        style={{ backgroundColor: workspace.color }}
+                    <Link href={`/workspaces/${workspace.id}`}>
+                      <span
+                        className="flex items-center px-4 py-2 text-neutral-600 hover:bg-neutral-100 rounded-md mx-2 cursor-pointer"
                       >
-                        {getWorkspaceInitials(workspace.name)}
-                      </div>
-                      {!isCollapsed && <span className="ml-3">{workspace.name}</span>}
-                    </a>
+                        <div 
+                          className="w-6 h-6 rounded-md flex items-center justify-center text-white text-xs font-bold"
+                          style={{ backgroundColor: workspace.color }}
+                        >
+                          {getWorkspaceInitials(workspace.name)}
+                        </div>
+                        {!isCollapsed && <span className="ml-3">{workspace.name}</span>}
+                      </span>
+                    </Link>
                   </li>
                 ))
               )}
